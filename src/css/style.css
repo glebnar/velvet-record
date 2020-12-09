@@ -1,0 +1,16 @@
+.bg-dark{
+    background-color: #a35061 !important;
+}
+.navbar-dark a{
+    color: #f2d3cc !important;
+}
+#card{
+    border-color: #a35061 !important;
+}
+
+p{
+    color: #631f3a;
+}
+.bouton-card{
+    background-color:  #a35061 !important;
+}
