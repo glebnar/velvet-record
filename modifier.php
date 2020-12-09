@@ -2,8 +2,7 @@
     include("connection bdd/connection_BDD.php");
     include("controller/modifierController.php");
     include("mep/header.php");
-?>
-<?php
+
     // Si des erreurs ont été trouvée, les affiche
     if (count($errs) > 0) { 
 ?>
@@ -21,7 +20,7 @@
     <?php 
         }
     ?>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <div class=" form-group">
             <label for="disc_title">Titre</label>
             <input type="text" class="form-control" name="disc_title" id="disc_title" value="<?= $row->disc_title ?>">
@@ -61,7 +60,7 @@
             <div class="row">
                 <label for="disc_picture">Jaquette</label>
                 <input type="file" name="disc_picture" id="disc_picture" onchange="loadImg(event)"> 
-                <img id="frame"  width="100px" height="auto" />    </div>
+                <img id="frame"  width="100px" height="auto" /></div>
         </div>  
         <div class="row">
             <div class="col-4"></div>

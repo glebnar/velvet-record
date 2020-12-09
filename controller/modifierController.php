@@ -52,64 +52,62 @@ if(isset($_POST["submit"])){
         $disc_label=$_POST['disc_label'];
         $disc_genre=$_POST['disc_genre'];
         $disc_price=$_POST['disc_price'];
-        $disc_picture=$_POST['disc_picture'];
+        $disc_picture=$_FILES["disc_picture"]["name"];
 
 
-        if(isset($_POST["disc_picture"])){
-            var_dump($_FILES);
-                $erreur_file=$_FILES["disc_picture"]["error"];
-                // ----------------------------------------------------------
-                $aMimeTypes = array("image/gif", "image/jpeg", "image/png");
-                
-                if ($erreur_file==0){
+            $erreur_file=$_FILES["disc_picture"]["error"];
+            // ----------------------------------------------------------
+            $aMimeTypes = array("image/gif", "image/jpeg", "image/png");
+            
+            if ($erreur_file==0){
                 
                     // On extrait le type du fichier via l'extension FILE_INFO 
                     $finfo = finfo_open(FILEINFO_MIME_TYPE);
                     $mimetype = finfo_file($finfo, $_FILES["disc_picture"]["tmp_name"]);
                     finfo_close($finfo);
                 
-                    if (in_array($mimetype, $aMimeTypes)){
-                        move_uploaded_file($_FILES["disc_picture"]["tmp_name"], "../src/img/".$disc_picture);
-                        
-                        $requete = $db->prepare("UPDATE disc SET disc_picture=:disc_picture WHERE disc_id=:disc_id");
-                        $requete->bindValue(':disc_picture', $disc_picture);
-                        $requete->execute();
-                        // libère la connection au serveur de BDD
-                        $requete->closeCursor();        
-                    }
-                    else{
+                    if (!in_array($mimetype, $aMimeTypes)){
                         // Le type n'est pas autorisé, donc ERREUR
                             
                         $errs["disc_picture"][] ="le fichier envoyé n'est pas un fichier image valide (gif/jpeg/png)";
                     }
                 
                 }
-            }
 
 
         if (preg_match("#^[a-zA-Z0-9]+#",$disc_title)==0){
             $errs["disc_title"][] ="titre non valide, vérifiez la saisie";
         }
 
-        if (preg_match("#^[a-zA-Z0-9,]+#",stripSlashes($_POST["disc_genre"]))==0){
+        if (preg_match("#^[a-zA-Z0-9,]+#",$disc_genre)==0){
             $errs["disc_genre"][] ="Genre non valide, vérifiez la saisie";
         }
 
-        if (preg_match("#^[a-zA-Z0-9]+#",stripSlashes($_POST["disc_label"]))==0){
+        if (preg_match("#^[a-zA-Z0-9]+#",$disc_label)==0){
             $errs["disc_label"][] ="label non valide, vérifiez la saisie";
         }
 
-        if (preg_match("#^[0-9]{4}#",stripSlashes($_POST["disc_year"]))==0){
+        if (preg_match("#^[0-9]{4,4}$#",$disc_year)==0){
             $errs["disc_year"][] ="année non valide, vérifiez la saisie ( ex: 1984)";
         }
 
 
-        if (!is_numeric(stripSlashes($_POST["disc_price"]))){
+        if (!is_numeric($disc_price)){
             $errs["disc_price"][] ="entrez une valeur numérique pour le prix";
         
         }
         if (count($errs) == 0) {
 
+            if ($erreur_file==0){
+                move_uploaded_file($_FILES["disc_picture"]["tmp_name"], "src/img/".$disc_picture);
+                
+                $requete = $db->prepare("UPDATE disc SET disc_picture=:disc_picture WHERE disc_id=:disc_id");
+                $requete->bindValue(':disc_picture', $disc_picture);
+                $requete->bindValue(':disc_id', $disc_id);
+                $requete->execute();
+                // libère la connection au serveur de BDD
+                $requete->closeCursor();        
+            }
 
             // Les donnees du formulaires ont ete validee (pas d'erreur trouvee)
             $requete = $db->prepare("UPDATE disc SET disc_title=:disc_title,artist_id=:artist_id,
@@ -126,7 +124,7 @@ if(isset($_POST["submit"])){
                 $requete->execute();
                 // libère la connection au serveur de BDD
                 $requete->closeCursor();
-            // header("Location: index.php");
+            header("Location: index.php");
             die();
         }
     }
