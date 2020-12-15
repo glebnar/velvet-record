@@ -51,7 +51,7 @@
 <div class="row pt-3">
     <div class="col-sm"></div>
     <a type="button" class="btn btn-dark bouton-card col-2 mx-1" href="modifier.php?disc_id=<?= $row->disc_id ?>">Modifier</a>
-    <a type="button" class="btn btn-dark bouton-card col-2 mx-1" href="script/deleteDisc.php?disc_id=<?= $row->disc_id?>">Supprimer</a>
+    <a type="button" class="btn btn-dark bouton-card col-2 mx-1" onclick="Suppression();" href="script/deleteDisc.php?disc_id=<?= $row->disc_id?>">Supprimer</a>
     <div class="col-sm"></div>
 </div>
 <?php

@@ -15,7 +15,7 @@
                     <p class=""><?=$row->artist_name?></p>
                     <a type="button" class="btn btn-dark bouton-card col-12" href="detail.php?disc_id=<?= $row->disc_id?>">Détail</a>
                     <a type="button" class="btn btn-dark mt-2 bouton-card col-12" href="modifier.php?disc_id=<?= $row->disc_id ?>">Modifier</a>
-                    <a type="button" class="btn btn-dark mt-2 bouton-card col-12" href="script/deleteDisc.php?disc_id=<?= $row->disc_id?>">Supprimer</a>
+                    <a type="button" class="btn btn-dark mt-2 bouton-card col-12" onclick="Suppression();" href="script/deleteDisc.php?disc_id=<?= $row->disc_id?>">Supprimer</a>
                 </div>
             </div>
         </div>
