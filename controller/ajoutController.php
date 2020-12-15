@@ -33,6 +33,7 @@ if(isset($_POST["submit"])){
         $disc_genre=$_POST['disc_genre'];
         $disc_price=$_POST['disc_price'];
         $disc_picture=$_FILES["disc_picture"]["name"];
+        $new_artist_id=$_POST['new_artist_id'];
 
 
             $erreur_file=$_FILES["disc_picture"]["error"];
@@ -57,6 +58,9 @@ if(isset($_POST["submit"])){
                 
             }
 
+        if (!$new_artist_id=="" && preg_match("#^[a-zA-Z0-9]+#",$new_artist_id)==0){    
+                $errs["disc_title"][] ="Non d'artiste non valide, vérifiez la saisie";
+        }
 
         if (preg_match("#^[a-zA-Z0-9]+#",$disc_title)==0){
             $errs["disc_title"][] ="titre non valide, vérifiez la saisie";
@@ -80,7 +84,25 @@ if(isset($_POST["submit"])){
         
         }
         if (count($errs) == 0) {
+            move_uploaded_file($_FILES["disc_picture"]["tmp_name"], "src/img/".$disc_picture);
+
             // Les donnees du formulaires ont ete validee (pas d'erreur trouvee)
+            if (!$new_artist_id==""){
+                $requeteAdd = $db->prepare("INSERT INTO artist (artist_name) 
+                VALUES (:artist_name)");
+                
+                $requeteAdd->bindValue(':artist_name', $new_artist_id);
+                $requeteAdd->execute();
+                // libère la connection au serveur de BDD
+                $requeteAdd->closeCursor();        
+
+                $requeteGetID=$db->prepare("SELECT artist_id from artist where artist_id=LAST_INSERT_ID() ");
+                $requeteGetID->execute();
+                $rowGetID = $requeteGetID->fetch(PDO::FETCH_OBJ);
+                $artist_id=$rowGetID->artist_id;
+                var_dump( $artist_id);
+                $requeteGetID->closeCursor();   
+            }
             $requete = $db->prepare("INSERT INTO disc (disc_title, disc_year, disc_label, disc_genre, disc_price,disc_picture, artist_id) 
             VALUES (:disc_title,:disc_year,:disc_label,:disc_genre,:disc_price,:disc_picture,:artist_id)");
 

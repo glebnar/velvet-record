@@ -53,6 +53,7 @@ if(isset($_POST["submit"])){
         $disc_genre=$_POST['disc_genre'];
         $disc_price=$_POST['disc_price'];
         $disc_picture=$_FILES["disc_picture"]["name"];
+        $new_artist_id=$_POST['new_artist_id'];
 
 
             $erreur_file=$_FILES["disc_picture"]["error"];
@@ -74,6 +75,9 @@ if(isset($_POST["submit"])){
                 
                 }
 
+        if (!$new_artist_id=="" && preg_match("#^[a-zA-Z0-9]+#",$new_artist_id)==0){    
+                $errs["disc_title"][] ="Non d'artiste non valide, vérifiez la saisie";
+        }
 
         if (preg_match("#^[a-zA-Z0-9]+#",$disc_title)==0){
             $errs["disc_title"][] ="titre non valide, vérifiez la saisie";
@@ -99,6 +103,7 @@ if(isset($_POST["submit"])){
         if (count($errs) == 0) {
 
             if ($erreur_file==0){
+            // Les donnees du formulaires ont ete validee (pas d'erreur trouvee)
                 move_uploaded_file($_FILES["disc_picture"]["tmp_name"], "src/img/".$disc_picture);
                 
                 $requete = $db->prepare("UPDATE disc SET disc_picture=:disc_picture WHERE disc_id=:disc_id");
@@ -108,9 +113,23 @@ if(isset($_POST["submit"])){
                 // libère la connection au serveur de BDD
                 $requete->closeCursor();        
             }
+            if (!$new_artist_id==""){
+                $requeteAdd = $db->prepare("INSERT INTO artist (artist_name) 
+                VALUES (:artist_name)");
+                
+                $requeteAdd->bindValue(':artist_name', $new_artist_id);
+                $requeteAdd->execute();
+                // libère la connection au serveur de BDD
+                $requeteAdd->closeCursor();        
 
-            // Les donnees du formulaires ont ete validee (pas d'erreur trouvee)
-            $requete = $db->prepare("UPDATE disc SET disc_title=:disc_title,artist_id=:artist_id,
+                $requeteGetID=$db->prepare("SELECT artist_id from artist where artist_id=LAST_INSERT_ID() ");
+                $requeteGetID->execute();
+                $rowGetID = $requeteGetID->fetch(PDO::FETCH_OBJ);
+                $artist_id=$rowGetID->artist_id;
+                var_dump( $artist_id);
+                $requeteGetID->closeCursor();   
+            }
+                $requete = $db->prepare("UPDATE disc SET disc_title=:disc_title,artist_id=:artist_id,
                 disc_year=:disc_year, disc_label=:disc_label, disc_genre=:disc_genre,
                 disc_price=:disc_price WHERE disc_id=:disc_id");
 

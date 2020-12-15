@@ -14,3 +14,10 @@ p{
 .bouton-card{
     background-color:  #a35061 !important;
 }
+
+#frame {
+    display: none;
+}
+#new_artist_toggle{
+    display: none;
+}

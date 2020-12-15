@@ -25,7 +25,7 @@
             <label for="disc_title">Titre</label>
             <input type="text" class="form-control" name="disc_title" id="disc_title" value="<?= $row->disc_title ?>">
         </div>
-        <div class=" form-group">
+        <div class=" form-group" id="list_artist_toggle">
             <label for="artist_name">Artiste</label>
             <select  class="form-control" name="artist_id" id="artist_name">
                 <option value="<?= $row->artist_id ?>"><?= $row->artist_name ?> </option>
@@ -36,6 +36,11 @@
                 <?php } ?>
 
             </select>
+        </div>
+        <button type="button" class="btn btn-dark bouton-card" id="new_artist_btn">ajouter un Artiste</button>
+        <div class=" form-group" id="new_artist_toggle">
+            <label for="new_artist_id" >Nouvel artiste</label>
+            <input type="text" class="form-control" name="new_artist_id" id="new_artist_id" value="">
         </div>
         <div class=" form-group">
             <label for="disc_year">Année</label>
