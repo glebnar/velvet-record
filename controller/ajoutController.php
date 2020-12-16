@@ -74,7 +74,7 @@ if(isset($_POST["submit"])){
             $errs["disc_label"][] ="label non valide, vérifiez la saisie";
         }
 
-        if (preg_match("#^[0-9]{4,4}#",stripSlashes($_POST["disc_year"]))==0){
+        if (preg_match("#^[0-9]{4,4}$#",stripSlashes($_POST["disc_year"]))==0){
             $errs["disc_year"][] ="année non valide, vérifiez la saisie ( ex: 1984)";
         }
 
