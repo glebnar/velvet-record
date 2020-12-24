@@ -1,5 +1,6 @@
 <?php
     include("connection bdd/connection_BDD.php");
+    include("controller/loginController.php");
     include("controller/indexController.php");
     include("mep/header.php");
 ?>
@@ -14,8 +15,16 @@
                     <p class=" h4 font-weight-bold"><?=$row->disc_title?></p>
                     <p class=""><?=$row->artist_name?></p>
                     <a type="button" class="btn btn-dark bouton-card col-12" href="detail.php?disc_id=<?= $row->disc_id?>">Détail</a>
+                    
+                    <?php if(isset( $_SESSION["niveau"]) &&  $_SESSION["niveau"]=="admin") {?>    
                     <a type="button" class="btn btn-dark mt-2 bouton-card col-12" href="modifier.php?disc_id=<?= $row->disc_id ?>">Modifier</a>
-                    <a type="button" class="btn btn-dark mt-2 bouton-card col-12" onclick="Suppression();" href="script/deleteDisc.php?disc_id=<?= $row->disc_id?>">Supprimer</a>
+                    <form method="post">
+                    <input type="submit" class="btn btn-dark mt-2 bouton-card col-12 suppression" name="supprimer" value="supprimer">
+                    <input type="input" name="supprimer_id" value=<?= $row->disc_id?> hidden> 
+                    <?php } ?>
+                    
+                    </form>
+
                 </div>
             </div>
         </div>

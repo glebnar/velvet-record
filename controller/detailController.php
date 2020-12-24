@@ -16,5 +16,26 @@ if ($result->rowCount() == 0)
    // Pas d'enregistrement
    die("La table est vide");
 }
-$row = $result->fetch(PDO::FETCH_OBJ)
+$row = $result->fetch(PDO::FETCH_OBJ);
+if(!empty($_POST['supprimer'])) {
+
+    $disc_id=$_POST['supprimer_id'];
+
+    //construction de la requête DELETE sans injection SQL
+    
+    $requete = $db->prepare("DELETE from disc WHERE disc_id=:disc_id");
+    
+    $requete->bindValue(':disc_id', $disc_id, PDO::PARAM_INT);
+    
+    $requete->execute();
+    
+    //libère la connection au serveur de BDD
+    $requete->closeCursor();
+    
+    //redirection vers index.php
+    header("Location: index.php");
+    
+    
+    
+}
 ?>

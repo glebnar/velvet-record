@@ -1,7 +1,7 @@
 .bg-dark{
     background-color: #a35061 !important;
 }
-.navbar-dark a{
+.nav-link{
     color: #f2d3cc !important;
 }
 #card{
@@ -17,7 +17,21 @@ p{
 
 #frame {
     display: none;
+    width: 100px;
+    height: auto;
 }
 #new_artist_toggle{
     display: none;
+}
+
+.btn-secondary{
+    background-color:#631f3a !important;
+    color: #f2d3cc !important;
+
+}
+.lien-dropdown{
+    color: #631f3a !important;
+}
+#erreurLogin{
+    color: #f2d3cc;
 }

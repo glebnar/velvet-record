@@ -1,5 +1,6 @@
 <?php
     include("connection bdd/connection_BDD.php");
+    include("controller/loginController.php");
     include("controller/detailController.php");
     include("mep/header.php");
 ?>
@@ -47,13 +48,18 @@
     <p class=" h3 col-sm"><?= $row->disc_price ?>€</p>
     <div class="col-sm"></div>
 </div>
-
-<div class="row pt-3">
-    <div class="col-sm"></div>
-    <a type="button" class="btn btn-dark bouton-card col-2 mx-1" href="modifier.php?disc_id=<?= $row->disc_id ?>">Modifier</a>
-    <a type="button" class="btn btn-dark bouton-card col-2 mx-1" onclick="Suppression();" href="script/deleteDisc.php?disc_id=<?= $row->disc_id?>">Supprimer</a>
-    <div class="col-sm"></div>
-</div>
+<?php if(isset( $_SESSION["niveau"]) &&  $_SESSION["niveau"]=="admin") {?>    
+    <div class="row pt-3">
+        <div class="col-sm"></div>
+        <form method="post" class="col-sm mx-1">
+        <a type="button" class="btn btn-dark bouton-card  mx-1" href="modifier.php?disc_id=<?= $row->disc_id ?>">Modifier</a>
+            <input type="submit" class="btn btn-dark bouton-card  suppression" name="supprimer" value="supprimer">
+            <input type="input" name="supprimer_id" value=<?= $row->disc_id?> hidden> 
+        </form>
+        <div class="col-sm"></div>
+    </div>
+<?php } ?>
+   
 <?php
     include("mep/footer.php");
 ?>

@@ -1,5 +1,6 @@
 <?php
     include("connection bdd/connection_BDD.php");
+    include("controller/loginController.php");
     include("controller/ajoutController.php");
     include("mep/header.php");
 
@@ -11,7 +12,7 @@
         foreach ($errs as $champEnErreur => $erreursDuChamp) {
             foreach ($erreursDuChamp as $erreur) { 
     ?>
-               <p><?=$erreur?></p>
+               <p class="text-danger"><?=$erreur?></p>
     <?php
             }
         } 
@@ -64,13 +65,13 @@
         <div class="form-group">
             <div class="row">
                 <label for="disc_picture">Jaquette</label>
-                <input type="file" name="disc_picture" id="disc_picture"  onchange="loadImg(event)"> 
-                <img id="frame"  width="100px" height="auto" />    </div>
+                <input type="file" name="disc_picture" id="disc_picture" > 
+                <img id="frame">    </div>
         </div>  
         <div class="row">
             <div class="col-4"></div>
             <div class="col-4">
-            <input type="submit" class="btn btn-dark bouton-card" name="submit" value="valider" />
+            <input type="submit" class="btn btn-dark bouton-card" name="submit" value="valider">
             </div>
             <div class="col-4"></div>
         </div>

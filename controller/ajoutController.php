@@ -1,5 +1,4 @@
 <?php
-
 $listArtist= "SELECT * FROM artist";
 $resultArtist= $db->query($listArtist);
 
@@ -57,29 +56,30 @@ if(isset($_POST["submit"])){
                     }
                 
             }
-
-        if (!$new_artist_id=="" && preg_match("#^[a-zA-Z0-9]+#",$new_artist_id)==0){    
-                $errs["disc_title"][] ="Non d'artiste non valide, vérifiez la saisie";
+        $regXpText="#^[a-zA-Z 0-9,/]+#";
+        $regXpYear="#^[0-9]{4,4}$#";
+        if (!$new_artist_id=="" && preg_match($regXpText,$new_artist_id)==0){    
+            $errs["disc_title"][] ="Non d'artiste non valide, vérifiez la saisie";
         }
 
-        if (preg_match("#^[a-zA-Z0-9]+#",$disc_title)==0){
+        if (preg_match($regXpText,$disc_title)==0){
             $errs["disc_title"][] ="titre non valide, vérifiez la saisie";
         }
 
-        if (preg_match("#^[a-zA-Z0-9,]+#",stripSlashes($_POST["disc_genre"]))==0){
+        if (preg_match($regXpText,$disc_genre)==0){
             $errs["disc_genre"][] ="Genre non valide, vérifiez la saisie";
         }
 
-        if (preg_match("#^[a-zA-Z0-9]+#",stripSlashes($_POST["disc_label"]))==0){
+        if (preg_match($regXpText,$disc_label)==0){
             $errs["disc_label"][] ="label non valide, vérifiez la saisie";
         }
 
-        if (preg_match("#^[0-9]{4,4}$#",stripSlashes($_POST["disc_year"]))==0){
+        if (preg_match($regXpYear,$disc_year)==0){
             $errs["disc_year"][] ="année non valide, vérifiez la saisie ( ex: 1984)";
         }
 
 
-        if (!is_numeric(stripSlashes($_POST["disc_price"]))){
+        if (!is_numeric($disc_price)){
             $errs["disc_price"][] ="entrez une valeur numérique pour le prix";
         
         }
