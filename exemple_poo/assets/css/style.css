@@ -1,0 +1,7 @@
+.responsive-img {
+    width: 5em !important;
+    height: auto !important;
+}
+.formError {
+    color: red !important;
+}

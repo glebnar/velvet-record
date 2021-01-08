@@ -1,0 +1,9 @@
+<?php
+include 'controllers/indexController.php';
+include 'views/header.php';
+?>
+
+<?php
+include 'views/footer.php';
+
+
